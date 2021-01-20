@@ -1,0 +1,14 @@
+server:
+  port: 9221
+
+spring:
+  application:
+    name: personal-pro-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+elasticsearch:
+  hosts: localhost:9200
