@@ -3,6 +3,8 @@ package com.example.personalproservice.service.Impl;
 import com.alibaba.fastjson.JSON;
 import com.example.personalproservice.service.ESDemo;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.admin.indices.alias.IndicesAliasesAction;
+import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
@@ -13,6 +15,7 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -85,6 +88,19 @@ public class ESDemoImpl implements ESDemo {
         request.source(JSON.toJSONString(obj), XContentType.JSON);
         IndexResponse response = client.index(request, RequestOptions.DEFAULT);
         return response.getId();
+    }
+
+    public void addAlias(String indexname, String aliasname) throws IOException {
+        IndicesAliasesRequest request = new IndicesAliasesRequest();
+
+        IndicesAliasesRequest.AliasActions aliasActions = new IndicesAliasesRequest.AliasActions(IndicesAliasesRequest.AliasActions.Type.ADD)
+                .index(indexname)
+                .alias(aliasname)
+                //过滤条件
+                .filter(QueryBuilders.termQuery("name", "name1"));
+        request.addAliasAction(aliasActions);
+
+        client.indices().updateAliases(request, RequestOptions.DEFAULT);
     }
 
 

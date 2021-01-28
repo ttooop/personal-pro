@@ -15,4 +15,6 @@ public interface ESDemo {
     boolean deleteIndex(String indexname) throws IOException;
 
     String addData(Object obj, String indexname) throws IOException;
+
+    void addAlias(String indexname, String aliasname) throws IOException;
 }
