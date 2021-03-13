@@ -4,3 +4,8 @@ server:
 spring:
   application:
     name: mq-demo
+
+rocketmq:
+  group-name: test
+  namesrv: 127.0.0.1:9876
+  topicname: TestTopic
